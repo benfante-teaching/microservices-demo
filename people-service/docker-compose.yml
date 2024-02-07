@@ -1,0 +1,51 @@
+version: '3'
+services:
+  config-service:
+    image: config-service:latest
+    ports:
+      - 8088:8088
+    networks:
+      - people-network
+  people-web:
+    image: people-web:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - 8082:8080
+    networks:
+      - people-network
+    depends_on:
+      discovery-service:
+        condition: service_started
+      config-service:
+        condition: service_started
+  people-postgres:
+    image: postgres
+    volumes:
+      - people-postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: people
+      POSTGRES_USER: people
+      POSTGRES_PASSWORD: people
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U people"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - 54321:5432
+    networks:
+      - people-network
+  discovery-service:
+    image: discovery-service:latest
+    ports:
+      - 8761:8761
+    networks:
+      - people-network
+volumes:
+  people-postgres-data:
+    driver: local
+networks:
+  people-network:
+    driver: bridge

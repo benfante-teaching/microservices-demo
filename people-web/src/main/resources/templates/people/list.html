@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People List</title>
+</head>
+<body>
+    <h1>People List</h1>
+
+    <div th:text="${peopleServiceUrl}">People Service URL</div>
+
+    <ul>
+        <li th:each="person: ${people}">
+            <span th:text="${person.firstName}">First Name</span>
+            <span th:text="${person.lastName}">Last Name</span>
+        </li>
+    </ul>
+
+    <div th:text="${errorMessage}"></div>
+</body>
+</html>
