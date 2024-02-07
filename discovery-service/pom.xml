@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.benfante.teaching.microservices-demo</groupId>
-	<artifactId>deiscovery-service</artifactId>
+	<artifactId>discovery-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>discovery-service</name>
 	<description>The discovery service for the demo microservicea application (Eureka Registration Server)</description>
