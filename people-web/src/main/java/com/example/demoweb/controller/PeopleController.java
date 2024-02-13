@@ -34,8 +34,8 @@ public class PeopleController {
                 // InstanceInfo peopleService = eurekaClient.getNextServerFromEureka("DEMOPERSON", false);
                 // String peopleServiceUrl = peopleService.getHomePageUrl();
                 // model.addAttribute("peopleServiceUrl", peopleServiceUrl);
-
                 // return restTemplate.getForObject(peopleServiceUrl+"/api/v1/people", Person[].class);
+
                 return restTemplate.getForObject("http://DEMOPERSON/api/v1/people", Person[].class);
             },
             (throwable) -> {

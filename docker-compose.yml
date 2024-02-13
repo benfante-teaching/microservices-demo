@@ -25,10 +25,10 @@ services:
     image: people-service:latest
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-    deploy:
-      replicas: 2
-    # ports:
-    #   - 8081:8080
+    # deploy:
+    #   replicas: 2
+    ports:
+      - 8081:8080
     networks:
       - people-network
     depends_on:
