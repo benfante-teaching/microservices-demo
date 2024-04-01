@@ -29,6 +29,7 @@ public class PeopleController {
     @GetMapping
     @Operation(description = "Questo funzione restituisce l'elenco delle persone, permettendo di filtrarle per nome e cognome")
     public Iterable<Person> listAllPerson(@RequestParam(name="q", defaultValue = "") String filter) {
+        log.debug("Getting people using filter: {}", filter);
         return peopleService.getAllPerson(filter);
     }
 

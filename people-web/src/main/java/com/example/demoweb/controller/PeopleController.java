@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 
+@SuppressWarnings("unused")
 @Controller
 public class PeopleController {
 
@@ -31,11 +32,13 @@ public class PeopleController {
 
         Person[] people = 
             cb.run(() -> {
+                /* *** Uncomment this block to directly use Eureka client to get the service URL *** */
                 // InstanceInfo peopleService = eurekaClient.getNextServerFromEureka("DEMOPERSON", false);
                 // String peopleServiceUrl = peopleService.getHomePageUrl();
                 // model.addAttribute("peopleServiceUrl", peopleServiceUrl);
                 // return restTemplate.getForObject(peopleServiceUrl+"/api/v1/people", Person[].class);
 
+                /* *** Comment this block if you want to directly use Eureka client to get the service URL *** */
                 return restTemplate.getForObject("http://DEMOPERSON/api/v1/people", Person[].class);
             },
             (throwable) -> {
