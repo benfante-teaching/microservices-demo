@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import java.util.UUID;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,23 +13,25 @@ import jakarta.persistence.SequenceGenerator;
 @Entity
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "person_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_id_seq")
+    @SequenceGenerator(name = "person_id_seq", sequenceName = "person_id_seq", allocationSize = 1)
     private Long id;
+    // @Column(name="uuid", unique = true, nullable = false, insertable = false, updatable = false)
+    @Generated(event = EventType.INSERT)
+    private UUID uuid;
     @Column(name="first_name")
     private String firstName;
     @Column(name="last_name")
     private String lastName;
-    private int age;
 
     public Person() {
     }
 
-    public Person(Long id, String firstName, String lastName, int age) {
+    public Person(Long id, UUID uuid, String firstName, String lastName) {
         this.id = id;
+        this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.age = age;
     }
 
     public Long getId() {
@@ -37,6 +42,14 @@ public class Person {
         this.id = id;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -51,14 +64,6 @@ public class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     @Override
@@ -85,6 +90,5 @@ public class Person {
             return false;
         return true;
     }
-
     
 }
