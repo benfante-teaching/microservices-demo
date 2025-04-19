@@ -24,7 +24,7 @@ public class PeopleService {
     }
 
     public Person findPersonByUuid(UUID uuid) {
-        return personRepository.findByUuid(uuid).orElseThrow(() -> new NotFoundException("Person not found with uuid: %s".formatted(uuid)));
+        return personRepository.findByExternalId(uuid).orElseThrow(() -> new NotFoundException("Person not found with uuid: %s".formatted(uuid)));
     }
 
     @Transactional(readOnly = false)

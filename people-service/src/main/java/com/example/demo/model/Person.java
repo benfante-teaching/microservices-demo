@@ -18,7 +18,8 @@ public class Person {
     private Long id;
     // @Column(name="uuid", unique = true, nullable = false, insertable = false, updatable = false)
     @Generated(event = EventType.INSERT)
-    private UUID uuid;
+    @Column(name = "external_id")
+    private UUID externalId;
     @Column(name="first_name")
     private String firstName;
     @Column(name="last_name")
@@ -29,7 +30,7 @@ public class Person {
 
     public Person(Long id, UUID uuid, String firstName, String lastName) {
         this.id = id;
-        this.uuid = uuid;
+        this.externalId = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -42,12 +43,12 @@ public class Person {
         this.id = id;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public UUID getExternalId() {
+        return externalId;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setExternalId(UUID uuid) {
+        this.externalId = uuid;
     }
     
     public String getFirstName() {

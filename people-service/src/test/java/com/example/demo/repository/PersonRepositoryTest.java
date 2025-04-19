@@ -46,11 +46,11 @@ public class PersonRepositoryTest {
     @Test
     void testFindByUuid() {
         final String uuid = "00000000-0000-0000-0000-000000000003";
-        Optional<Person> result = personRepository.findByUuid(UUID.fromString(uuid));
+        Optional<Person> result = personRepository.findByExternalId(UUID.fromString(uuid));
         assertThat(result, notNullValue());
         assertThat(result.isPresent(), equalTo(true));
         assertThat(result.get().getId(), equalTo(10002L));
-        assertThat(result.get().getUuid(), equalTo(UUID.fromString(uuid)));
+        assertThat(result.get().getExternalId(), equalTo(UUID.fromString(uuid)));
         assertThat(result.get().getFirstName(), equalTo("Carlo"));
         assertThat(result.get().getLastName(), equalTo("Neri"));
     }
@@ -58,7 +58,7 @@ public class PersonRepositoryTest {
     @Test
     void testFindByUuidNotFound() {
         final String uuid = "00000000-0000-0000-0000-000000000999";
-        Optional<Person> result = personRepository.findByUuid(UUID.fromString(uuid));
+        Optional<Person> result = personRepository.findByExternalId(UUID.fromString(uuid));
         assertThat(result, notNullValue());
         assertThat(result.isPresent(), equalTo(false));
     }

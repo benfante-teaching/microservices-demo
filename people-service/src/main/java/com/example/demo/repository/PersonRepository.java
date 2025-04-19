@@ -8,5 +8,5 @@ import com.example.demo.model.Person;
 public interface PersonRepository extends JpaRepository<Person, Long> {
     Iterable<Person> findByFirstNameContainingOrLastNameContainingAllIgnoreCaseOrderByLastNameAscFirstNameAsc(String firstName, String lastName);
 
-    Optional<Person> findByUuid(UUID uuid);
+    Optional<Person> findByExternalId(UUID uuid);
 }

@@ -13,7 +13,7 @@ public class PersonToPersonDtoConverter implements Converter<Person, PersonDto> 
         if (person == null) {
             return null;
         }
-        return new PersonDto(person.getUuid(), person.getFirstName(), person.getLastName());
+        return new PersonDto(person.getExternalId(), person.getFirstName(), person.getLastName());
     }
     
 }

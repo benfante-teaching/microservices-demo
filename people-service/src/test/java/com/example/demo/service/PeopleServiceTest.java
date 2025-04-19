@@ -44,7 +44,7 @@ public class PeopleServiceTest {
         Person result = peopleService.findPersonById(id);
         assertThat(result, notNullValue());
         assertThat(result.getId(), equalTo(id));
-        assertThat(result.getUuid(), equalTo(UUID.fromString(uuid)));
+        assertThat(result.getExternalId(), equalTo(UUID.fromString(uuid)));
         assertThat(result.getFirstName(), equalTo("Carlo"));
         assertThat(result.getLastName(), equalTo("Neri"));
     }
@@ -63,7 +63,7 @@ public class PeopleServiceTest {
         Person result = peopleService.findPersonByUuid(UUID.fromString(uuid));
         assertThat(result, notNullValue());
         assertThat(result.getId(), equalTo(10002L));
-        assertThat(result.getUuid(), equalTo(UUID.fromString(uuid)));
+        assertThat(result.getExternalId(), equalTo(UUID.fromString(uuid)));
         assertThat(result.getFirstName(), equalTo("Carlo"));
         assertThat(result.getLastName(), equalTo("Neri"));
     }
@@ -74,13 +74,13 @@ public class PeopleServiceTest {
         Person result = peopleService.addPerson(person);
         assertThat(result, notNullValue());
         assertThat(result.getId(), notNullValue());
-        assertThat(result.getUuid(), notNullValue());
+        assertThat(result.getExternalId(), notNullValue());
         assertThat(result.getFirstName(), equalTo("New first name"));
         assertThat(result.getLastName(), equalTo("New last name"));
         Person newPerson = peopleService.findPersonById(result.getId());
         assertThat(newPerson, notNullValue());
         assertThat(newPerson.getId(), equalTo(result.getId()));
-        assertThat(newPerson.getUuid(), equalTo(result.getUuid()));
+        assertThat(newPerson.getExternalId(), equalTo(result.getExternalId()));
         assertThat(newPerson.getFirstName(), equalTo(result.getFirstName()));
         assertThat(newPerson.getLastName(), equalTo(result.getLastName()));
     }
