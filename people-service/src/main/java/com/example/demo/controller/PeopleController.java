@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,11 @@ import com.example.demo.model.converter.PersonToPersonDtoConverter;
 import com.example.demo.service.PeopleService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api/v1/people")
@@ -45,7 +52,17 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public PersonDto getByUuid(@PathVariable(name = "id") UUID id) {
+    @Operation(summary = "Get a person by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the person",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = PersonDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Person not found",
+                    content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
+                            schema = @Schema(implementation = ProblemDetail.class)))})
+    public PersonDto getByUuid(@Parameter(description = "The person id") @PathVariable(name = "id") UUID id) {
         return personConverter.convert(peopleService.findPersonByUuid(id));
     }
 
