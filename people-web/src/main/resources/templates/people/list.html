@@ -1,22 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html
+  lang="en"
+  layout:decorate="~{layout(title='People list')}"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>People List</title>
-</head>
-<body>
-    <h1>People List</h1>
-
-    <div th:text="${peopleServiceUrl}">People Service URL</div>
-
-    <ul>
-        <li th:each="person: ${people}">
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div
+        class="alert alert-info"
+        role="alert"
+        th:if="${#lists.isEmpty(people)}"
+      >
+        No people in list!
+      </div>
+      <ul class="list-group" th:unless="${#lists.isEmpty(people)}">
+        <li
+          th:each="person: ${people}"
+          class="list-group-item list-group-item-action d-flex flex-row align-items-center"
+        >
+          <div>
             <span th:text="${person.firstName}">First Name</span>
             <span th:text="${person.lastName}">Last Name</span>
+          </div>
         </li>
-    </ul>
-
-    <div th:text="${errorMessage}"></div>
-</body>
+      </ul>
+    </div>
+  </body>
 </html>
