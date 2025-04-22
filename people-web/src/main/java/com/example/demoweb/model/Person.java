@@ -1,27 +1,27 @@
 package com.example.demoweb.model;
 
+import java.util.UUID;
+
 public class Person {
-    private Long id;
+    private UUID uuid;
     private String firstName;
     private String lastName;
-    private int age;
 
     public Person() {
     }
 
-    public Person(Long id, String firstName, String lastName, int age) {
-        this.id = id;
+    public Person(UUID uuid, String firstName, String lastName, int age) {
+        this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.age = age;
     }
 
-    public Long getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getFirstName() {
@@ -38,14 +38,6 @@ public class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
 }

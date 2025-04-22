@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  layout:decorate="~{layout(title='Person detail')}"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Person detail</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <h2 th:text="${person.firstName + ' ' + person.lastName}">FirstName LastName</h2>
+    </div>
+  </body>
+</html>

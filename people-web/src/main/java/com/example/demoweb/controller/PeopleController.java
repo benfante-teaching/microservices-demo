@@ -1,13 +1,14 @@
 package com.example.demoweb.controller;
 
 import com.example.demoweb.model.Person;
-
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -47,7 +48,7 @@ public class PeopleController {
                 return restTemplate.getForObject(builder.toUriString(), Person[].class);
             },
             (throwable) -> {
-                model.addAttribute("errorMessage", "Il servizio People Service non è disponibile");
+                model.addAttribute("errorMessage", "People Service is not available.");
                 return new Person[]{};
             }
             );
@@ -55,5 +56,24 @@ public class PeopleController {
         model.addAttribute("people", people);
 
         return "people/list";
+    }
+
+    @GetMapping("/{id}")
+    public String detail(@PathVariable(name = "id") UUID id, Model model) {
+        CircuitBreaker cb = circuitBreakerFactory.create("peopleServiceCB");
+
+        Person person = 
+            cb.run(() -> {
+                return restTemplate.getForObject("http://DEMOPERSON/api/v1/people/{id}", Person.class, id);
+            },
+            (throwable) -> {
+                model.addAttribute("errorMessage", "People Service is not available.");
+                return new Person();
+            }
+            );
+
+        model.addAttribute("person", person);
+
+        return "people/detail";
     }
 }

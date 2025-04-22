@@ -12,6 +12,11 @@
   </head>
   <body>
     <div layout:fragment="content">
+      <div class="mb-2">
+        <a class="btn btn-success" th:href="@{/people/new}" role="button"
+          >New Person</a
+        >
+      </div>
       <div
         class="alert alert-info"
         role="alert"
@@ -27,6 +32,27 @@
           <div>
             <span th:text="${person.firstName}">First Name</span>
             <span th:text="${person.lastName}">Last Name</span>
+          </div>
+          <div class="ms-auto">
+            <a
+              th:href="@{${'/people/'+person.uuid}}"
+              class="btn btn-primary btn-sm ms-auto"
+              role="button"
+              >Detail</a
+            >
+            <a
+              th:href="@{${'/people/'+person.uuid+'/edit'}}"
+              class="btn btn-primary btn-sm ms-auto"
+              role="button"
+              >Edit</a
+            >
+            <a
+              th:href="@{${'/people/'+person.uuid+'/delete'}}"
+              onclick="return confirm('Are you sure you want to delete this person?')"
+              class="btn btn-danger btn-sm ms-auto"
+              role="button"
+              >Delete</a
+            >
           </div>
         </li>
       </ul>
