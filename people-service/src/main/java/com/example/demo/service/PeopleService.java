@@ -54,6 +54,7 @@ public class PeopleService {
         return dbPerson;
     }
 
+    @Transactional(readOnly = false)
     public void deletePerson(UUID id) {
         findPersonByUuid(id); // Check if the person exists
         personRepository.deleteByExternalId(id);
