@@ -66,4 +66,3 @@ docker compose -f docker-compose.yml up
 Try the services at <http://localhost:8081/swagger-ui.html>.
 
 Try the web application using the service at <http://localhost:8082/>.
-
