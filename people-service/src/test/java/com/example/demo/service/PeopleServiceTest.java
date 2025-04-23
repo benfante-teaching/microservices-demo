@@ -85,4 +85,22 @@ public class PeopleServiceTest {
         assertThat(newPerson.getLastName(), equalTo(result.getLastName()));
     }
 
+    @Test
+    void testUpdatePerson() {
+        final String uuid = "00000000-0000-0000-0000-000000000003";
+        Person person = new Person(null, UUID.fromString(uuid), "Updated first name", "Updated last name");
+        Person updatedPerson = peopleService.updatePerson(person);
+        assertThat(updatedPerson, notNullValue());
+        assertThat(updatedPerson.getId(), equalTo(10002L));
+        assertThat(updatedPerson.getExternalId(), equalTo(UUID.fromString(uuid)));
+        assertThat(updatedPerson.getFirstName(), equalTo("Updated first name"));
+        assertThat(updatedPerson.getLastName(), equalTo("Updated last name"));
+        Person result = peopleService.findPersonByUuid(UUID.fromString(uuid));
+        assertThat(result, notNullValue());
+        assertThat(result.getId(), equalTo(10002L));
+        assertThat(result.getExternalId(), equalTo(UUID.fromString(uuid)));
+        assertThat(result.getFirstName(), equalTo("Updated first name"));
+        assertThat(result.getLastName(), equalTo("Updated last name"));
+    }
+
 }

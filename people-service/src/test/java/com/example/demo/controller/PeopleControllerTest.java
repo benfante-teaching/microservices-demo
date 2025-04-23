@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -76,5 +77,52 @@ public class PeopleControllerTest {
                 .andExpect(jsonPath("$.id").doesNotExist())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
+
+    @Test
+    void testUpdatePerson() throws Exception {
+        String uuid = "00000000-0000-0000-0000-000000000001";
+        mvc.perform(patch(BASE_PATH + "/{uuid}", uuid).contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                   "firstName": "Updated first name",
+                   "lastName": "Updated last name"
+                }
+                """)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", is("Updated first name")))
+                .andExpect(jsonPath("$.lastName", is("Updated last name")))
+                .andExpect(jsonPath("$.uuid", is(uuid)))
+                .andExpect(jsonPath("$.id").doesNotExist())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void testUpdatePersonPartial() throws Exception {
+        String uuid = "00000000-0000-0000-0000-000000000001";
+        mvc.perform(patch(BASE_PATH + "/{uuid}", uuid).contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                   "lastName": "Updated last name"
+                }
+                """)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", is("Mario")))
+                .andExpect(jsonPath("$.lastName", is("Updated last name")))
+                .andExpect(jsonPath("$.uuid", is(uuid)))
+                .andExpect(jsonPath("$.id").doesNotExist())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void testUpdatePersonTryingUpdatingUuid() throws Exception {
+        String uuid = "00000000-0000-0000-0000-000000000001";
+        mvc.perform(patch(BASE_PATH + "/{uuid}", uuid).contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                   "uuid": "00000000-0000-0000-0000-000000000999"
+                }
+                """)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", is("Mario")))
+                .andExpect(jsonPath("$.lastName", is("Rossi")))
+                .andExpect(jsonPath("$.uuid", is(uuid)))
+                .andExpect(jsonPath("$.id").doesNotExist())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
 
 }
