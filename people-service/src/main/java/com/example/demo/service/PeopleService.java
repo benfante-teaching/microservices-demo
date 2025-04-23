@@ -53,4 +53,9 @@ public class PeopleService {
         personRepository.flush();
         return dbPerson;
     }
+
+    public void deletePerson(UUID id) {
+        findPersonByUuid(id); // Check if the person exists
+        personRepository.deleteByExternalId(id);
+    }
 }

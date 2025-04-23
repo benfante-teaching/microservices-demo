@@ -103,4 +103,21 @@ public class PeopleServiceTest {
         assertThat(result.getLastName(), equalTo("Updated last name"));
     }
 
+    @Test
+    void testDeletePerson() {
+        final String uuid = "00000000-0000-0000-0000-000000000003";
+        peopleService.deletePerson(UUID.fromString(uuid));
+        assertThrows(NotFoundException.class, () -> {
+            peopleService.findPersonByUuid(UUID.fromString(uuid));
+        });
+    }
+
+    @Test
+    void testDeletePersonNotFound() {
+        final String uuid = "00000000-0000-0000-0000-000000000999";
+        assertThrows(NotFoundException.class, () -> {
+            peopleService.deletePerson(UUID.fromString(uuid));
+        });
+    }
+
 }

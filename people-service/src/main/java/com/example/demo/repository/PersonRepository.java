@@ -9,4 +9,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     Iterable<Person> findByFirstNameContainingOrLastNameContainingAllIgnoreCaseOrderByLastNameAscFirstNameAsc(String firstName, String lastName);
 
     Optional<Person> findByExternalId(UUID uuid);
+
+    void deleteByExternalId(UUID id);
 }

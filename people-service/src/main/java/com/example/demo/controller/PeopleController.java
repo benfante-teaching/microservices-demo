@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -95,5 +96,24 @@ public class PeopleController {
                 person = person.withUuid(id); // assuring the correct id is set
                 return personConverter.convert(
                                 peopleService.updatePerson(personDtoConverter.convert(person)));
+        }
+
+        @DeleteMapping("/{id}")
+        @ResponseStatus(HttpStatus.NO_CONTENT)
+        @Operation(summary = "Delete a person by its id")
+        @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "Person deleted",
+                        content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                        schema = @Schema(implementation = Void.class))}),
+                        @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                                        content = @Content),
+                        @ApiResponse(responseCode = "404", description = "Person not found",
+                                        content = @Content(
+                                                        mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
+                                                        schema = @Schema(
+                                                                        implementation = ProblemDetail.class)))})
+        public void deletePerson(@Parameter(description = "The person id") @PathVariable(
+                        name = "id") UUID id) {
+                log.debug("Deleting person with id: {}", id);
+                peopleService.deletePerson(id);
         }
 }

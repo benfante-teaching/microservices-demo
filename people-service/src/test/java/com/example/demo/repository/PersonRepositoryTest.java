@@ -62,4 +62,22 @@ public class PersonRepositoryTest {
         assertThat(result, notNullValue());
         assertThat(result.isPresent(), equalTo(false));
     }
+
+    @Test
+    void testDeleteByExternalId() {
+        final String uuid = "00000000-0000-0000-0000-000000000001";
+        personRepository.deleteByExternalId(UUID.fromString(uuid));
+        Optional<Person> result = personRepository.findByExternalId(UUID.fromString(uuid));
+        assertThat(result, notNullValue());
+        assertThat(result.isPresent(), equalTo(false));
+    }
+
+    @Test
+    void testDeleteByExternalIdNotFound() {
+        final String uuid = "00000000-0000-0000-0000-000000000999";
+        personRepository.deleteByExternalId(UUID.fromString(uuid));
+        Optional<Person> result = personRepository.findByExternalId(UUID.fromString(uuid));
+        assertThat(result, notNullValue());
+        assertThat(result.isPresent(), equalTo(false));
+    }
 }
